@@ -1,3 +1,16 @@
+// input with id username on change
+document.getElementById("username").addEventListener("input", function () {
+  const username = document.getElementById("username").value;
+  // regex to check if username has at least 1 captial letter, 1 special character, 1 number and is at least 8 characters long
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  if (regex.test(username)) {
+    //set the username input border(thin) to green
+    document.getElementById("username").style.borderColor = "green";
+  } else {
+    document.getElementById("username").style.borderColor = "red";
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const ctx = document.getElementById("barChart").getContext("2d");
 
