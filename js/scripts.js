@@ -1,7 +1,10 @@
 // Validate username input
 const validateUsername = () => {
   const username = document.getElementById("username").value;
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&~])[A-Za-z\d@$!%*?&]{8,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).send("Invalid email address.");
+  }
   const borderColor = regex.test(username) ? "green" : "red";
   document.getElementById("username").style.borderColor = borderColor;
 };
@@ -94,7 +97,34 @@ const attachDownloadChartListener = (barChart) => {
     link.click(); // Trigger the download
   });
 };
+// Attach event listener to send email button
+document.getElementById("send-email").addEventListener("click", async () => {
+  const email = document.getElementById("email-address").value;
+  const barChart = Chart.getChart("barChart"); // Get the chart instance
+  const chartImage = barChart.toBase64Image(); // Convert chart to Base64 image
 
+  if (!email) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://localhost:3000/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, image: chartImage }),
+    });
+
+    if (response.ok) {
+      alert("Email sent successfully!");
+    } else {
+      alert("Failed to send email. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error sending email:", error);
+    alert("An error occurred while sending the email.");
+  }
+});
 // Initialize the application
 document.addEventListener("DOMContentLoaded", () => {
   const ctx = document.getElementById("barChart").getContext("2d");
