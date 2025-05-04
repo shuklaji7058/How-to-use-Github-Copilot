@@ -1,7 +1,7 @@
 // Validate username input
 const validateUsername = () => {
   const username = document.getElementById("username").value;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@[^~\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).send("Invalid email address.");
   }
